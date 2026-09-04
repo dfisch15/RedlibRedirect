@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html {
+        color-scheme: dark;
+      }
+      body {
+        font: 13px/1.5 system-ui, sans-serif;
+        margin: 0;
+        padding: 14px 16px 18px;
+        min-width: 340px;
+        background: #1e1f22;
+        color: #e8e6e3;
+      }
+      h2 {
+        margin: 0 0 2px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #f2f1ef;
+      }
+      .hint {
+        margin: 0 0 10px;
+        color: #9a9ea3;
+      }
+      fieldset {
+        border: 0;
+        margin: 0 0 18px;
+        padding: 0;
+      }
+      label.row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 5px 0;
+        cursor: pointer;
+      }
+      input[type="radio"],
+      input[type="checkbox"] {
+        accent-color: #6ea8fe;
+      }
+      .host {
+        font-family: ui-monospace, monospace;
+      }
+      .note {
+        color: #9a9ea3;
+        font-size: 12px;
+      }
+      textarea {
+        background: #26282c;
+        color: #e8e6e3;
+        border: 1px solid #3a3d42;
+        border-radius: 4px;
+        padding: 6px 8px;
+      }
+      textarea:focus {
+        outline: none;
+        border-color: #6ea8fe;
+      }
+      #status {
+        min-height: 16px;
+        font-size: 12px;
+        color: #9a9ea3;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      #status.show {
+        opacity: 1;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      #saveBtn {
+        background: #6ea8fe;
+        color: #1e1f22;
+        border: 0;
+        border-radius: 4px;
+        padding: 6px 14px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #saveBtn:hover {
+        background: #8ebbff;
+      }
+      #saveBtn:active {
+        background: #5c96f0;
+      }
+    </style>
+  </head>
+  <body>
+    <fieldset>
+      <h2>Redirect target</h2>
+      <p class="hint">Where reddit.com goes in a private window.</p>
+
+      <label class="row">
+        <input type="radio" name="instance" value="https://safereddit.com" />
+        <span><span class="host">safereddit.com</span> <span class="note">US, SFW only</span></span>
+      </label>
+      <label class="row">
+        <input type="radio" name="instance" value="https://redlib.catsarch.com" />
+        <span><span class="host">redlib.catsarch.com</span> <span class="note">US</span></span>
+      </label>
+      <label class="row">
+        <input type="radio" name="instance" value="https://red.artemislena.eu" />
+        <span><span class="host">red.artemislena.eu</span> <span class="note">DE</span></span>
+      </label>
+      <label class="row">
+        <input type="radio" name="instance" value="https://redlib.privadency.com" />
+        <span><span class="host">redlib.privadency.com</span> <span class="note">DE</span></span>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <h2>Auto-apply settings</h2>
+      <p class="hint">
+        Paste a redlib "export settings" string to restore it automatically in
+        private windows, where cookies don't survive between sessions.
+      </p>
+      <textarea
+        id="prefsString"
+        rows="2"
+        placeholder="Paste exported settings string here"
+        style="width: 100%; box-sizing: border-box; font-family: ui-monospace, monospace; font-size: 12px; resize: vertical;"
+      ></textarea>
+    </fieldset>
+
+    <div class="actions">
+      <button id="saveBtn" type="button">Save</button>
+      <div id="status">Saved</div>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
