@@ -15,24 +15,30 @@ const DEFAULT_INSTANCE = INSTANCES[0];
 const REDDIT_HOST = /^(?:[a-z0-9-]+\.)*reddit\.com$/i;
 
 let instance = DEFAULT_INSTANCE;
+let regularWindows = false;
 
 browser.storage.local
-  .get({ instance: DEFAULT_INSTANCE })
+  .get({ instance: DEFAULT_INSTANCE, regularWindows: false })
   .then((cfg) => {
     instance = cfg.instance;
+    regularWindows = !!cfg.regularWindows;
   })
   .catch(() => {
   });
 
 browser.storage.onChanged.addListener((changes, area) => {
-  if (area === "local" && changes.instance) {
+  if (area !== "local") return;
+  if (changes.instance) {
     instance = changes.instance.newValue || DEFAULT_INSTANCE;
+  }
+  if (changes.regularWindows) {
+    regularWindows = !!changes.regularWindows.newValue;
   }
 });
 
 function onBeforeRequest(details) {
-  // Fail open: anything other than an explicit private request is left alone
-  if (details.incognito !== true) return {};
+  // Fail open: private requests always redirect; regular windows only when opted in
+  if (details.incognito !== true && !regularWindows) return {};
 
   let url;
   try {
@@ -55,7 +61,7 @@ browser.webRequest.onBeforeRequest.addListener(
 
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status !== "complete") return;
-  if (!tab.incognito) return;
+  if (!tab.incognito && !regularWindows) return;
   if (!tab.url) return;
   if (!INSTANCES.some((origin) => tab.url.startsWith(origin))) return;
 

@@ -2,12 +2,14 @@
 
 const DEFAULTS = {
   instance: "https://safereddit.com",
-  prefsString: ""
+  prefsString: "",
+  regularWindows: false
 };
 
 const status = document.getElementById("status");
 const prefsBox = document.getElementById("prefsString");
 const saveBtn = document.getElementById("saveBtn");
+const regularWindowsBox = document.getElementById("regularWindows");
 const radios = Array.from(document.querySelectorAll('input[name="instance"]'));
 
 let statusTimer = null;
@@ -25,6 +27,7 @@ function load() {
       const match = radios.find((r) => r.value === cfg.instance);
       (match || radios[0]).checked = true;
       prefsBox.value = cfg.prefsString;
+      regularWindowsBox.checked = !!cfg.regularWindows;
     })
     .catch(() => {
       radios[0].checked = true;
@@ -36,7 +39,8 @@ function save() {
   browser.storage.local
     .set({
       instance: picked ? picked.value : DEFAULTS.instance,
-      prefsString: prefsBox.value.replace(/^[ \t\r\n]+|[ \t\r\n]+$/g, "")
+      prefsString: prefsBox.value.replace(/^[ \t\r\n]+|[ \t\r\n]+$/g, ""),
+      regularWindows: regularWindowsBox.checked
     })
     .then(flashSaved)
     .catch(() => {

@@ -94,7 +94,7 @@
   <body>
     <fieldset>
       <h2>Redirect target</h2>
-      <p class="hint">Where reddit.com goes in a private window.</p>
+      <p class="hint">Instance that reddit.com redirects to.</p>
 
       <label class="row">
         <input type="radio" name="instance" value="https://safereddit.com" />
@@ -112,6 +112,15 @@
         <input type="radio" name="instance" value="https://redlib.privadency.com" />
         <span><span class="host">redlib.privadency.com</span> <span class="note">DE</span></span>
       </label>
+    </fieldset>
+
+    <fieldset>
+      <h2>Windows</h2>
+      <label class="row">
+        <input type="checkbox" id="regularWindows" />
+        <span>Also redirect in regular (non-private) windows</span>
+      </label>
+      <p class="hint">By default, only private/incognito windows are redirected.</p>
     </fieldset>
 
     <fieldset>

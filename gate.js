@@ -35,15 +35,15 @@ function reloadFresh() {
 }
 
 async function maybeApplyPrefs() {
-  if (!browser.extension.inIncognitoContext) return;
   if (sessionStorage.getItem("rl-prefs-applied")) return;
 
   let cfg;
   try {
-    cfg = await browser.storage.local.get({ prefsString: "" });
+    cfg = await browser.storage.local.get({ prefsString: "", regularWindows: false });
   } catch (e) {
     return;
   }
+  if (!browser.extension.inIncognitoContext && !cfg.regularWindows) return;
   if (!cfg.prefsString) return;
 
   // 15s covers a slow proof-of-work challenge
