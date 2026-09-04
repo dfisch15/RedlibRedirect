@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "RedlibRedirect",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Redirects Reddit to a redlib instance in private windows, and auto-applies your redlib settings there.",
 
   "icons": {
