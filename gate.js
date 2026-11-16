@@ -47,7 +47,12 @@ async function maybeApplyPrefs() {
   if (!cfg.prefsString) return;
 
   // 15s covers a slow proof-of-work challenge
-  const ready = await waitForSelector('a[href="/settings"]', 15000);
+  // Newer redlib links to "/settings?return_to=..." with id="settings_link";
+  // older versions use a bare "/settings" href.
+  const ready = await waitForSelector(
+    'a#settings_link, a[href="/settings"], a[href^="/settings?"]',
+    15000
+  );
   if (!ready) return;
 
   try {
